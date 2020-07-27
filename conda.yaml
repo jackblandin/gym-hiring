@@ -1,0 +1,27 @@
+name: gym-hiring
+channels:
+  - defaults
+  - conda-forge
+  - glemaitre
+  - akode
+dependencies:
+  - gym
+  - ipykernel
+  - jupyter
+  - jupyter_contrib_nbextensions
+  - matplotlib
+  - numpy=1.15.4
+  - pandas
+  - pandas-profiling
+  - pip
+  - python=3.6.8
+  - scikit-learn=0.20.3
+  - seaborn
+  - setuptools==40.6.3
+  - tabulate
+  - tqdm
+  - pip:
+    - setuptools==40.6.3
+    - file:///Users/JBlandin/research/gym-hiring  # use when editing locally
+    # PyPI - Doesn't work unless locally pip installed
+    # - gym-hiring==0.0.1
