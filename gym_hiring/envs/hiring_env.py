@@ -4,7 +4,7 @@ import logging.config
 # 3rd party modules
 import gym
 import numpy as np
-from gym.spaces import Discrete, Box, Tuple
+from gym.spaces import Discrete, Tuple
 
 
 OBS_GENDER_MAP = {
@@ -124,9 +124,11 @@ class HiringEnv(gym.Env):
         # Define what the agent can do: HIRE, NOT HIRE
         self.action_space = Discrete(2)
 
-        # Define what agent can observe:
+        # Define what agent can observe. E.g.:
+        #   - Gender : male or female : Discrete(2)
+        #   - Productivity Score : integer from 0 to 9 : Discrete(10)
         self.observation_space = Tuple(
-            [Discrete(len(prob)) for prob in attr_probs] + [Box(0, 1, (1,))])
+            [Discrete(len(prob)) for prob in attr_probs] + [Discrete(10)])
 
         self.reset()
 
@@ -293,7 +295,8 @@ class HiringEnv(gym.Env):
         float
             Reward.
         """
-        r = action*(self.cur_state.cand_prod_score - .9)
+        HIRE_COST = 5  # TODO 7/29/20 - Determine significance of this value
+        r = action*(self.cur_state.cand_prod_score - HIRE_COST)
         return r
 
     def _get_obs(self):
