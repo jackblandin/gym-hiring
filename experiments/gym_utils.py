@@ -47,15 +47,44 @@ def play_episode(env, model, eps):
     return totalreward
 
 
-def running_avg(totalrewards, t, window):
+def play_n_episodes(env, model, n):
+    totalrewards = np.zeros(n)
+
+    window = int(n/10)
+    for _n in range(n):
+        if _n >= (n - window):
+            eps = 0
+        else:
+            eps = 1.0/(_n+1)**.2
+        totalreward = play_episode(env, model, eps)
+        totalrewards[_n] = totalreward
+        if _n % window == 0:
+            ravg = _running_avg(totalrewards, _n, window)
+            print('episode: {:,}, total reward: {:,.2f}, eps: {:.3f}, avg '
+                  'reward last {:,}: {:.3f}'.format(_n, totalreward, eps,
+                                                    window, ravg))
+
+    print('\nTotal steps: {:,}'.format(len(totalrewards)))
+    print('Avg cumulative reward: {:,.3f}'.format(totalrewards.mean()))
+    print('Avg reward for last {:,} episodes: {:,.3f}'.format(
+        window, totalrewards[int(-1*(n/10)):].mean()))
+
+    plt.plot(totalrewards)
+    plt.title("Rewards")
+    plt.show()
+
+    _plot_running_avg(totalrewards, window)
+
+
+def _running_avg(totalrewards, t, window):
     return totalrewards[max(0, t-window):(t+1)].mean()
 
 
-def plot_running_avg(totalrewards, window):
+def _plot_running_avg(totalrewards, window):
     N = len(totalrewards)
     ravg = np.empty(N)
     for t in range(N):
-        ravg[t] = running_avg(totalrewards, t, window)
+        ravg[t] = _running_avg(totalrewards, t, window)
     plt.plot(ravg)
     plt.title('Running Average')
     plt.show()

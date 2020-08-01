@@ -12,6 +12,4 @@ setup(
     keywords=['reinforcement-learning', 'machine-learning', 'fairness',
               'research', 'irl', 'python', 'inverse-reinforcement-learning'],
     packages=find_packages(),
-    install_requires=['matplotlib',
-                      'numpy=1.15.4',
-                      'pandas=0.24.1'])
+    install_requires=['gym', 'numpy==1.15.4'])
