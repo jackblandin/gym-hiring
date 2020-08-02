@@ -1,1 +1,1 @@
-from gym_hiring.envs.hiring_env import HiringEnv
+from gym_hiring.envs.stateless_hiring import StatelessHiring

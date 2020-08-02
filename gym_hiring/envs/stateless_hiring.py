@@ -7,7 +7,7 @@ import numpy as np
 from gym.spaces import Discrete, Tuple
 
 
-class HiringEnv(gym.Env):
+class StatelessHiring(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, max_steps_per_episode):
@@ -22,7 +22,6 @@ class HiringEnv(gym.Env):
 
         Attributes
         ----------
-            Number of possible actions.
         curr_episode : int
             Current episode as a count.
         action_episode_memory : list<<list<int>>
@@ -40,6 +39,7 @@ class HiringEnv(gym.Env):
         n_states : int
             Number of possible states.
         n_actions : int
+            Number of possible actions.
         observation_function : list<list>
             Index represents state, value is observations for that state.
         transition_probabilities : np.ndarray (n_states, n_actions, n_states)
@@ -54,7 +54,7 @@ class HiringEnv(gym.Env):
         >>> env = gym.make('hiring-v0', **args)
         """
         self.__version__ = "0.0.1"
-        logging.info("Hiring - Version {}".format(self.__version__))
+        logging.info("StatelessHiring-v{}".format(self.__version__))
 
         self.max_steps_per_episode = max_steps_per_episode
 

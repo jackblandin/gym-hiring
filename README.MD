@@ -8,15 +8,15 @@ Version | Date | Description
 ## File Descriptions
 
 ```
-experiments/                            Implements RL experiments on variations of Hiring Env.
-    optimal-fairness-policy.ipynb       Executes optimal policy for gender equal outcome constraint.
+experiments/                            Implements RL experiments on hiring env variations.
+    stateless-hiring.ipynb              Executes optimal policy for gender equal outcome constraint.
     utils.py                            Defines RL utilty methods.
 
 gym_hiring/                             Defines gym_hiring package.
     envs/
-        __init__.py                     Imports HiringEnv.
-        hiring_env.py                   Defines HiringEnv.
-    __init__.py                         Registers hiring-env with gym.
+        __init__.py                     Imports all hiring environment classes.
+        stateless_hiring.py             Defines StatelessHiring.
+    __init__.py                         Registers each hiring env with gym.
 
 conda.yaml                              Defines development environment requirements.
 setup.py                                Describes gym_hiring package meta information.
