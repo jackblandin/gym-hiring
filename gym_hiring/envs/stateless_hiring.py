@@ -12,7 +12,7 @@ class StatelessHiring(gym.Env):
 
     def __init__(self, max_steps_per_episode):
         """
-        OpenAI Gym environment for the Hiring environment.
+        A stateless hiring environment.
 
         Parameters
         ----------
@@ -22,7 +22,7 @@ class StatelessHiring(gym.Env):
 
         Attributes
         ----------
-        curr_episode : int
+        cur_episode : int
             Current episode as a count.
         action_episode_memory : list<<list<int>>
             History of actions taken in each episode.
@@ -30,7 +30,7 @@ class StatelessHiring(gym.Env):
             History of observations observed in each episode.
         reward_episode_memory : list<list<int, float>>
             History of rewards observed in each episode.
-        curr_step : int
+        cur_step : int
             Current timestep in episode, as a count.
         action_space : gym.spaces.Discrete
             Action space.
@@ -51,18 +51,18 @@ class StatelessHiring(gym.Env):
         Examples
         --------
         >>> args = {'max_steps_per_episode': 100}
-        >>> env = gym.make('hiring-v0', **args)
+        >>> env = gym.make('StatelessHiring-v0', **args)
         """
         self.__version__ = "0.0.1"
-        logging.info("StatelessHiring-v{}".format(self.__version__))
+        logging.info("StatelessHiring Version {}".format(self.__version__))
 
         self.max_steps_per_episode = max_steps_per_episode
 
-        self.curr_episode = -1  # Set to -1 b/c reset() adds 1 to episode
+        self.cur_episode = -1  # Set to -1 b/c reset() adds 1 to episode
         self.action_episode_memory = []
         self.observation_episode_memory = []
         self.reward_episode_memory = []
-        self.curr_step = 0
+        self.cur_step = 0
 
         # Define what the agent can do: HIRE, REJECT
         self.action_space = Discrete(2)
@@ -131,12 +131,12 @@ class StatelessHiring(gym.Env):
                 However, official evaluations of your agent are not allowed to
                 use this for learning.
         """
-        done = self.curr_step >= self.max_steps_per_episode
+        done = self.cur_step >= self.max_steps_per_episode
 
         if done:
             raise RuntimeError("Episode is done")
 
-        self.curr_step += 1
+        self.cur_step += 1
 
         # Compute new state based on previous state and action
         new_state = self._take_action(action)
@@ -151,12 +151,12 @@ class StatelessHiring(gym.Env):
         ob = self._get_obs()  # Has to come after new state update
 
         # Update action, observation and reward histories
-        self.action_episode_memory[self.curr_episode].append(action)
-        self.observation_episode_memory[self.curr_episode].append(ob)
-        self.reward_episode_memory[self.curr_episode].append(reward)
+        self.action_episode_memory[self.cur_episode].append(action)
+        self.observation_episode_memory[self.cur_episode].append(ob)
+        self.reward_episode_memory[self.cur_episode].append(reward)
 
         # Recompute done since action may have modified it
-        done = self.curr_step >= self.max_steps_per_episode
+        done = self.cur_step >= self.max_steps_per_episode
 
         return ob, reward, done, {}
 
@@ -169,8 +169,8 @@ class StatelessHiring(gym.Env):
         object
             The initial observation of the space.
         """
-        self.curr_step = 0
-        self.curr_episode += 1
+        self.cur_step = 0
+        self.cur_episode += 1
         self.cur_state = 0  # Always start with fixed state
         self.action_episode_memory.append([])
         self.observation_episode_memory.append([])

@@ -50,7 +50,11 @@ def play_episode(env, model, eps):
 def play_n_episodes(env, model, n):
     totalrewards = np.zeros(n)
 
-    window = int(n/10)
+    if n > 10:
+        window = int(n/10)
+    else:
+        window = 1
+
     for _n in range(n):
         if _n >= (n - window):
             eps = 0
